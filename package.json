@@ -1,0 +1,16 @@
+{
+  "name": "to_do_timer",
+  "version": "1.0.0",
+  "description": "to do timer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "nodemon --watch . --exec \"electron .\""
+  },
+  "keywords": [],
+  "author": "LibertyReman",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^32.1.0"
+  }
+}
