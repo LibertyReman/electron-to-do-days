@@ -12,8 +12,9 @@
 
 ## 開発
 
-- $ git clone <https://github.com/LibertyReman/electron_to_do_timer.git>
-- $ npm i
+- $ git clone <https://github.com/LibertyReman/electron-to-do-timer.git>
+- $ cd electron-to-do-timer
+- $ npm install
 - $ npm run start
 
 ---
