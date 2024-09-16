@@ -1,0 +1,21 @@
+@use "./foundation/mixin";
+@use "./variable";
+
+@include mixin.dbg-border-all(blue, 1);
+
+html {
+  background: variable.$color-basebg;
+  color: variable.$color-basefont;
+  font-family: arial, sans-serif;
+}
+
+a {
+  color: inherit; // 親のスタイルを継承
+  text-decoration: none; // URLリンクの下線を削除
+}
+
+li {
+  list-style: none; // 点(・)を削除
+}
+
+

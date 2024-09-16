@@ -1,0 +1,26 @@
+$dbg: 0;
+$dbg-all: 0;
+
+@mixin dbg-border-all($color: blue, $px: 1){
+  @if($dbg-all == 1){
+    * {
+      outline: #{$px}px solid $color;
+      outline-offset: -#{$px}px;
+    }
+  }
+}
+
+@mixin dbg-border($color: blue, $px: 1, $switch: 1){
+  @if($switch == 1 and $dbg == 1){
+    outline: #{$px}px solid $color;
+    outline-offset: -#{$px}px;
+  }
+}
+
+@mixin dbg-bgcolor($color: blue, $switch: 1){
+  @if($switch == 1 and $dbg == 1){
+    background-color: $color;
+  }
+}
+
+

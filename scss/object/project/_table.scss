@@ -1,0 +1,17 @@
+@use "../../foundation/mixin";
+@use "../../foundation/variable";
+
+.p-table {
+  border-collapse: collapse;
+  font-size: 15px;
+
+  th, td {
+    padding: 0 6px;
+    border: solid 1px black;
+  }
+
+  th {
+    background: variable.$color-darkgray;
+  }
+}
+

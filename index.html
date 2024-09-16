@@ -2,13 +2,56 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <!-- 開発中はブラウザシンクの画面リロードを有効にするためコメントアウト -->
+    <!--
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    -->
     <link href="./css/ress.css" rel="stylesheet">
     <link href="./css/styles.css" rel="stylesheet">
     <title>To Do Timer</title>
   </head>
   <body>
-    <h1>Hello Electron</h1>
+    <main class="l-main">
+      <table class="p-table">
+        <tr>
+          <th>No.</th>
+          <th>Task Name</th>
+          <th>Date</th>
+          <th>Limit</th>
+        </tr>
+        <tr>
+          <td class="u-bgcolor-gray">1</td>
+          <td class="u-bgcolor-gray">AWS開始</td>
+          <td class="u-bgcolor-gray">01/25</td>
+          <td class="u-bgcolor-gray">-235</td>
+        </tr>
+        <tr>
+          <td class="u-bgcolor-gray">2</td>
+          <td class="u-bgcolor-gray">転職</td>
+          <td class="u-bgcolor-gray">08/01</td>
+          <td class="u-bgcolor-gray">-46</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>編集</td>
+          <td>09/23</td>
+          <td class="u-bgcolor-red">7</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>アプリ完成</td>
+          <td>09/30</td>
+          <td class="u-bgcolor-yellow">14</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>アプリ配布</td>
+          <td>10/07</td>
+          <td>21</td>
+        </tr>
+      </table>
+    </main>
     <script src="./renderer.js"></script>
   </body>
 </html>
+
