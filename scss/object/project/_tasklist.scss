@@ -1,7 +1,7 @@
 @use "../../foundation/mixin";
 @use "../../foundation/variable";
 
-.p-table {
+.p-tasklist {
   border-collapse: collapse;
   font-size: 15px;
 
@@ -12,6 +12,15 @@
 
   th {
     background: variable.$color-darkgray;
+
+    &:nth-of-type(2) {
+      text-align: left;
+    }
   }
+
+  td:not(:nth-of-type(2)) {
+    text-align: center;
+  }
+
 }
 

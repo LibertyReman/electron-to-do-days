@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- 開発中はブラウザシンクの画面リロードを有効にするためコメントアウト -->
+    <!--
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    -->
+    <link href="./css/ress.css" rel="stylesheet">
+    <link href="./css/styles.css" rel="stylesheet">
+    <title>Create Task</title>
+  </head>
+  <body>
+    <main>
+      <div class="p-createtask">
+        <label class="p-createtask__label">Task Name</label>
+        <input class="p-createtask__input" type="text">
+
+        <label class="p-createtask__label">Due Date</label>
+        <table class="p-createtask__calendar" id="js-table">
+          <tr> <!-- 行 -->
+            <th class="u-fontcolor-gray">日</th> <!-- ヘッダー -->
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th class="u-fontcolor-gray">土</th>
+          </tr>
+        </table>
+        <label class="p-createtask__today">Today : 2024/09/17</label>
+      </div>
+    </main>
+    <script src="./renderer.js"></script>
+    <script src="./calendar.js"></script>
+  </body>
+</html>
+

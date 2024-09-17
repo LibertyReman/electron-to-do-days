@@ -13,25 +13,72 @@ li {
   list-style: none;
 }
 
-.p-table {
+.p-tasklist {
   border-collapse: collapse;
   font-size: 15px;
 }
-.p-table th, .p-table td {
+.p-tasklist th, .p-tasklist td {
   padding: 0 6px;
   border: solid 1px black;
 }
-.p-table th {
+.p-tasklist th {
   background: #1e1f22;
+}
+.p-tasklist th:nth-of-type(2) {
+  text-align: left;
+}
+.p-tasklist td:not(:nth-of-type(2)) {
+  text-align: center;
+}
+
+.p-createtask {
+  display: flex;
+  flex-direction: column;
+  max-width: 230px;
+  padding: 10px;
+  border-collapse: collapse;
+}
+.p-createtask__label {
+  margin: 0 0 5px;
+  font-size: 16px;
+}
+.p-createtask__input {
+  margin: 0 0 15px;
+  padding: 3px;
+  border-radius: 5px;
+  background: #6d747a;
+}
+.p-createtask__calendar {
+  margin: 0 0 5px;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.p-createtask__calendar th, .p-createtask__calendar td {
+  padding: 0 6px;
+  border: solid 1px black;
+}
+.p-createtask__calendar th {
+  background: #1e1f22;
+}
+.p-createtask__calendar td {
+  text-align: center;
+}
+.p-createtask__today {
+  text-align: center;
+  font-size: 14px;
+}
+
+.u-fontcolor-gray {
+  color: #6d747a;
 }
 
 .u-bgcolor-red {
-  background: #DF3545;
+  background: #B03A3A;
   color: #1e1f22;
 }
 
 .u-bgcolor-yellow {
-  background: #FFC107;
+  background: #D4A106;
   color: #1e1f22;
 }
 

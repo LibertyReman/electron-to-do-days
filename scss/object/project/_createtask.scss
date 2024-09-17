@@ -1,0 +1,48 @@
+@use "../../foundation/mixin";
+@use "../../foundation/variable";
+
+.p-createtask {
+  display: flex;
+  flex-direction: column;
+  max-width: 230px;
+  padding: 10px;
+  border-collapse: collapse;
+
+  &__label {
+    margin: 0 0 5px;
+    font-size: 16px;
+  }
+
+  &__input {
+    margin: 0 0 15px;
+    padding: 3px;
+    border-radius: 5px;
+    background: variable.$color-gray;
+  }
+
+  &__calendar {
+    margin: 0 0 5px;
+    border-collapse: collapse;
+    font-size: 15px;
+
+    th, td {
+      padding: 0 6px;
+      border: solid 1px black;
+    }
+
+    th {
+      background: variable.$color-darkgray;
+    }
+
+    td {
+      text-align: center;
+    }
+  }
+
+  &__today {
+    text-align: center;
+    font-size: 14px;
+  }
+
+}
+

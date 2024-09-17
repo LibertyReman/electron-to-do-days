@@ -1,5 +1,9 @@
 @use "../../foundation/variable";
 
+.u-fontcolor-gray {
+  color: variable.$color-gray;
+}
+
 .u-bgcolor-red {
   background: variable.$color-red;
   color: variable.$color-darkgray;
