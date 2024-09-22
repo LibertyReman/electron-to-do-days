@@ -1,11 +1,13 @@
-window.addEventListener('DOMContentLoaded', () => {
-  const replaceText = (selector, text) => {
-    const element = document.getElementById(selector)
-    if (element) element.innerText = text
-  }
+const { contextBridge, ipcRenderer } = require("electron");
 
-  for (const type of ['chrome', 'node', 'electron']) {
-    replaceText(`${type}-version`, process.versions[type])
-  }
-})
+// レンダラープロセスから呼び出す関数を登録
+contextBridge.exposeInMainWorld('task', {
+  async loadTaskList() {
+    // メインプロセス内のloadTaskList関数を実行
+    const result = await ipcRenderer.invoke('loadTaskList');
+    return result;
+  },
+
+});
+
 
