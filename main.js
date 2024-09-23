@@ -12,7 +12,7 @@ function createWindow () {
     },
   })
 
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile('mainWindow.html');
   // ウィンドウを常に上部に表示
   mainWindow.setAlwaysOnTop(true);
   // 起動時に自動で開発者ツールを開く
