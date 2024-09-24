@@ -8,6 +8,18 @@ contextBridge.exposeInMainWorld('task', {
     return result;
   },
 
+  // タスク保存関数の実行
+  async saveTask() {
+    const result = await ipcRenderer.invoke('saveTask', name, date);
+    return result;
+  },
+
+  // タスク作成画面の作成関数の実行
+  async openCreateTaskWindow(name, date) {
+    const result = await ipcRenderer.invoke('openCreateTaskWindow', name, date);
+    return result;
+  },
+
 });
 
 

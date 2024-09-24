@@ -44,6 +44,16 @@ async function displayTasks() {
       }
     }
 
+    // ダブルクリックイベントの追加
+    task.addEventListener("dblclick", () => {
+      console.log('dblclick');
+      if(name.textContent && taskList[i].date) {
+        openCreateTaskWindow(name.textContent, taskList[i].date);
+      } else {
+        openCreateTaskWindow('', '');
+      }
+    });
+
     // タスクの追加
     task.appendChild(num);
     task.appendChild(name);
@@ -64,6 +74,12 @@ function getLimit(date) {
   const limitDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
   return limitDays;
+}
+
+
+// タスク作成画面の表示
+async function openCreateTaskWindow(name, date) {
+  await window.task.openCreateTaskWindow(name, date);
 }
 
 
