@@ -11,6 +11,7 @@
   }
 
   th {
+    height: 20px;
     background: variable.$color-darkgray;
 
     &:nth-of-type(2) {
@@ -18,8 +19,12 @@
     }
   }
 
-  td:not(:nth-of-type(2)) {
-    text-align: center;
+  td {
+    height: 24px;
+
+    &:not(:nth-of-type(2)) {
+      text-align: center;
+    }
   }
 
 }

@@ -1,4 +1,5 @@
 html {
+  user-select: none;
   background: #2b2d31;
   color: #a3a3a3;
   font-family: arial, sans-serif;
@@ -22,10 +23,14 @@ li {
   border: solid 1px black;
 }
 .p-tasklist th {
+  height: 20px;
   background: #1e1f22;
 }
 .p-tasklist th:nth-of-type(2) {
   text-align: left;
+}
+.p-tasklist td {
+  height: 24px;
 }
 .p-tasklist td:not(:nth-of-type(2)) {
   text-align: center;
