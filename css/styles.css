@@ -39,27 +39,46 @@ li {
 .p-createtask {
   display: flex;
   flex-direction: column;
-  max-width: 230px;
-  padding: 10px;
+  width: 240px;
+  padding: 5px 10px 0;
   border-collapse: collapse;
 }
 .p-createtask__label {
-  margin: 0 0 5px;
   font-size: 16px;
+  font-weight: bold;
 }
 .p-createtask__input {
-  margin: 0 0 15px;
+  margin: 5px 0 10px;
   padding: 3px;
   border-radius: 5px;
   background: #6d747a;
 }
+.p-createtask__calendar-ctrl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3px;
+}
+.p-createtask__calendar-ctrl__btns {
+  display: flex;
+}
+.p-createtask__calendar-ctrl__btns button {
+  height: 20px;
+  padding: 0 5px;
+  margin-left: 6px;
+  border-radius: 5px;
+  background: #6d747a;
+  color: #2b2d31;
+  font-size: 12px;
+  font-weight: bold;
+}
 .p-createtask__calendar {
-  margin: 0 0 5px;
+  margin: 3px 0 5px;
   border-collapse: collapse;
   font-size: 15px;
 }
 .p-createtask__calendar th, .p-createtask__calendar td {
-  padding: 0 6px;
+  height: 23px;
   border: solid 1px black;
 }
 .p-createtask__calendar th {

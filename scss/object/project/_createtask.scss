@@ -2,31 +2,59 @@
 @use "../../foundation/variable";
 
 .p-createtask {
+  @include mixin.dbg-border(red, 2, 0);
   display: flex;
   flex-direction: column;
-  max-width: 230px;
-  padding: 10px;
+  width: 240px;
+  padding: 5px 10px 0;
   border-collapse: collapse;
 
   &__label {
-    margin: 0 0 5px;
+    @include mixin.dbg-border(blue, 2, 0);
     font-size: 16px;
+    font-weight: bold;
   }
 
   &__input {
-    margin: 0 0 15px;
+    @include mixin.dbg-border(yellow, 2, 0);
+    margin: 5px 0 10px;
     padding: 3px;
     border-radius: 5px;
     background: variable.$color-gray;
   }
 
+  &__calendar-ctrl {
+    @include mixin.dbg-border(green, 1, 0);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3px;
+
+    &__btns {
+      display: flex;
+
+      button {
+        @include mixin.dbg-border(lightgreen, 1, 0);
+        height: 20px;
+        padding: 0 5px;
+        margin-left: 6px;
+        border-radius: 5px;
+        background: variable.$color-gray;
+        color: variable.$color-basebg;
+        font-size: 12px;
+        font-weight: bold;
+      }
+    }
+  }
+
   &__calendar {
-    margin: 0 0 5px;
+    @include mixin.dbg-border(red, 2, 0);
+    margin: 3px 0 5px;
     border-collapse: collapse;
     font-size: 15px;
 
     th, td {
-      padding: 0 6px;
+      height: 23px;
       border: solid 1px black;
     }
 
@@ -43,6 +71,5 @@
     text-align: center;
     font-size: 14px;
   }
-
 }
 

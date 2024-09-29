@@ -30,10 +30,10 @@ function createTaskWindow(name, date) {
   const [X, Y] = mainWindow.getPosition();
 
   taskWindow = new BrowserWindow({
-    width: 230,
-    height: 270,
-    x: X+20,
-    y: Y-40,
+    width: 240,
+    height: 305,
+    x: X + 20,
+    y: Y - 40,
     parent: mainWindow,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

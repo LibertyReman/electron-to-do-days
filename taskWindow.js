@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
   // 今月のカレンダー表示ボタン押下時
-  document.getElementById('today').addEventListener('click', () => {
+  document.querySelector('.js-today-btn').addEventListener('click', () => {
     // 現在表示しているカレンダー年月の更新
     displayYear = new Date().getFullYear();
     displayMonth = new Date().getMonth() + 1;
@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   // 前の月へ移動ボタン押下時
-  document.getElementById('prevMonth').addEventListener('click', () => {
+  document.querySelector('.js-prev-month-btn').addEventListener('click', () => {
     displayMonth--;
 
     // 1月から12月へ変わる場合
@@ -61,7 +61,7 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   // 次の月へ移動ボタン押下時
-  document.getElementById('nextMonth').addEventListener('click', () => {
+  document.querySelector('.js-next-month-btn').addEventListener('click', () => {
     displayMonth++;
 
     // 12月から1月へ変わる場合
@@ -82,7 +82,14 @@ function getQueryParameter() {
   let date = urlParams.get('date');
 
   if(name === '') name = null;
-  if(date === '') date = null;
+
+  if(date === '') {
+    date = null;
+  } else {
+    // 0埋め削除
+    const d = new Date(date);
+    date = d.toLocaleDateString('ja-JP');
+  }
 
   return {taskName: name, selectedDate: date};
 }
@@ -98,7 +105,7 @@ function createCalendar(year, month) {
   const $calendarBody = document.querySelector('.js-calendar-body');
 
   // 現在の年月を表示
-  document.getElementById('displayMonthYear').innerText = `${year}年 ${month}月`;
+  document.querySelector('.js-display-month-year').innerText = `${year}年 ${month}月`;
 
   // カレンダーの作成（最大6行）
   let day = 1;
@@ -122,10 +129,13 @@ function createCalendar(year, month) {
       } else {
         td.innerHTML = day;
         // 選択された日付の場合はハイライト
-        if(selectedDate && `${year}/${month}/${day}` === selectedDate) td.classList.add('bgcolor-darkred');
+        if(selectedDate && `${year}/${month}/${day}` === selectedDate) td.classList.add('u-bgcolor-gray');
 
         // 新たに選択された日付の場合はハイライト
-        if(setDate && `${year}/${month}/${day}` === setDate) td.classList.add('bgcolor-red');
+        if(setDate && `${year}/${month}/${day}` === setDate) td.classList.add('u-bgcolor-red');
+
+        // 土日の場合は文字色を変更
+        if((j % 7) === 0 || (j % 7) === 6) td.classList.add('u-fontcolor-gray');
 
         // クリックイベントの追加
         const clickedDay = day;
@@ -148,9 +158,9 @@ function registerDate(year, month, day) {
   // 新たに選択された日付をハイライト
   $tds.forEach(td => {
     if (td.textContent === day.toString()) {
-      td.classList.add('bgcolor-red');
+      td.classList.add('u-bgcolor-red');
     } else {
-      td.classList.remove('bgcolor-red');
+      td.classList.remove('u-bgcolor-red');
     }
   });
 
