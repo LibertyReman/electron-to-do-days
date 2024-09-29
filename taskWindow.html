@@ -16,18 +16,28 @@
         <label class="p-createtask__label">Task Name</label>
         <input class="p-createtask__input js-taskname" type="text">
         <label class="p-createtask__label">Due Date</label>
-        <table class="p-createtask__calendar js-calendar">
-          <tr> <!-- 行 -->
-            <th class="u-fontcolor-gray">日</th> <!-- ヘッダー -->
-            <th>月</th>
-            <th>火</th>
-            <th>水</th>
-            <th>木</th>
-            <th>金</th>
-            <th class="u-fontcolor-gray">土</th>
-          </tr>
+        <div class="calendar-nav">
+          <span id="displayMonthYear"></span>
+          <div class="calendar-nav-ctl">
+            <button id="prevMonth">＜</button>
+            <button id="nextMonth">＞</button>
+            <button id="today">Today</button>
+          </div>
+        </div>
+        <table class="p-createtask__calendar">
+          <thead>
+            <tr>
+              <th class="u-fontcolor-gray">日</th>
+              <th>月</th>
+              <th>火</th>
+              <th>水</th>
+              <th>木</th>
+              <th>金</th>
+              <th class="u-fontcolor-gray">土</th>
+            </tr>
+          </thead>
+          <tbody class="js-calendar-body"></tbody>
         </table>
-        <label class="p-createtask__today">Today : 2024/09/17</label>
       </div>
     </main>
     <script src="./taskWindow.js"></script>

@@ -26,7 +26,7 @@ const startBrowserSync = () => {
   browserSync({
     server: {
       baseDir: "./",
-      index: "mainWindow.html"
+      index: "taskWindow.html"
     },
     notify: false,      // ブラウザ更新時に表示される通知をオフにする
   });
