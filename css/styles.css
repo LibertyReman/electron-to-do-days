@@ -96,6 +96,11 @@ li {
   color: #6d747a;
 }
 
+.u-bgcolor-gray {
+  background: #6d747a;
+  color: #1e1f22;
+}
+
 .u-bgcolor-red {
   background: #B03A3A;
   color: #1e1f22;
@@ -103,11 +108,6 @@ li {
 
 .u-bgcolor-yellow {
   background: #D4A106;
-  color: #1e1f22;
-}
-
-.u-bgcolor-gray {
-  background: #6d747a;
   color: #1e1f22;
 }
 /*# sourceMappingURL=styles.css.map */

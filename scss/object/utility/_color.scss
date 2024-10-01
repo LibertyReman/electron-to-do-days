@@ -4,6 +4,11 @@
   color: variable.$color-gray;
 }
 
+.u-bgcolor-gray {
+  background: variable.$color-gray;
+  color: variable.$color-darkgray;
+}
+
 .u-bgcolor-red {
   background: variable.$color-red;
   color: variable.$color-darkgray;
@@ -14,8 +19,4 @@
   color: variable.$color-darkgray;
 }
 
-.u-bgcolor-gray {
-  background: variable.$color-gray;
-  color: variable.$color-darkgray;
-}
 
