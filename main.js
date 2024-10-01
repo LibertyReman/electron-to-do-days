@@ -72,6 +72,7 @@ app.on('window-all-closed', function () {
 // レンダラープロセスからのリクエスト待ち受け設定
 ipcMain.handle('loadTaskList', loadTaskList);
 ipcMain.handle('openCreateTaskWindow', openCreateTaskWindow);
+ipcMain.handle('saveTask', saveTask);
 
 
 // タスク一覧の読み込み
@@ -88,10 +89,15 @@ function loadTaskList(event) {
   }
 }
 
-
 // タスク作成画面の作成
 function openCreateTaskWindow(event, name, date) {
   createTaskWindow(name, date);
+}
+
+// タスク保存
+function saveTask(event, name, date) {
+  console.log('------');
+  console.log(name, date);
 }
 
 

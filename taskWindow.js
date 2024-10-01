@@ -1,22 +1,11 @@
 let selectedDate = null;
 let setDate = null;
+const $taskName = document.querySelector('.js-taskname');
 
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', () => {
-  // クエリパラメータの取得
-  const queryParameter = getQueryParameter();
-
-  // 既存タスクの場合はタスク名を表示
-  if(queryParameter.taskName) {
-    const $taskName = document.querySelector('.js-taskname');
-    $taskName.value = queryParameter.taskName;
-  }
-
-  // 既存タスクの場合は選択された日付を設定
-  if(queryParameter.selectedDate) {
-    selectedDate = queryParameter.selectedDate;
-  }
-
+  // クエリパラメータによる初期化
+  initializeFromQuery();
 
   // 表示するカレンダー日付
   let displayYear = null;
@@ -75,28 +64,52 @@ window.addEventListener('DOMContentLoaded', () => {
 
 })
 
-// クエリパラメータの取得
-function getQueryParameter() {
+
+// 画面を閉じた時
+window.addEventListener('beforeunload', () => {
+  let date = null;
+
+  // 新規タスクまたは既存タスクの日付が更新された場合
+  if(setDate) {
+    date = setDate;
+  // 既存タスクで、日付が更新されなかった場合
+  } else {
+    date = selectedDate;
+  }
+
+  // 0埋め処理
+  let [year, month, day] = date.split('/');
+  month = month.padStart(2, '0');
+  day = day.padStart(2, '0');
+
+  // タスク保存
+  saveTask($taskName.value, `${year}/${month}/${day}`);
+});
+
+
+function initializeFromQuery() {
+  // クエリパラメータの取得
   const urlParams = new URLSearchParams(window.location.search);
   let name = urlParams.get('name');
   let date = urlParams.get('date');
 
-  if(name === '') name = null;
+  // 既存タスクの場合はテキストボックスにタスク名を表示
+  if(name !== '') $taskName.value = name;
 
-  if(date === '') {
-    date = null;
-  } else {
+  // 既存タスクの場合は選択された日付変数の値を更新
+  if(date !== '') {
     // 0埋め削除
     const d = new Date(date);
-    date = d.toLocaleDateString('ja-JP');
+    selectedDate = d.toLocaleDateString('ja-JP');
+  // 新規タスクの場合は新たに選択された日付変数の値を今日で設定
+  } else {
+    const d = new Date();
+    setDate = d.toLocaleDateString('ja-JP');
   }
-
-  return {taskName: name, selectedDate: date};
 }
 
 
-// カレンダー作成
-// 選択された日付や新しく選択された日付がある場合はハイライトする
+// カレンダー作成 選択された日付や新しく選択された日付がある場合はハイライトする
 function createCalendar(year, month) {
   // 1日目の曜日
   const firstDayOfWeek = new Date(year, month - 1, 1).getDay();
@@ -152,6 +165,7 @@ function createCalendar(year, month) {
   }
 }
 
+
 function registerDate(year, month, day) {
   const $tds = document.querySelectorAll('.js-calendar-body tr td');
 
@@ -166,6 +180,12 @@ function registerDate(year, month, day) {
 
   // 新たに選択された日付の保持
   setDate = `${year}/${month}/${day}`;
+}
+
+
+// タスク保存処理
+async function saveTask(name, date) {
+  await window.task.saveTask(name, date);
 }
 
 

@@ -9,7 +9,7 @@ contextBridge.exposeInMainWorld('task', {
   },
 
   // タスク保存関数の実行
-  async saveTask() {
+  async saveTask(name, date) {
     const result = await ipcRenderer.invoke('saveTask', name, date);
     return result;
   },
