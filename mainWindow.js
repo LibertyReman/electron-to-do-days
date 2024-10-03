@@ -46,7 +46,6 @@ async function displayTasks() {
 
     // ダブルクリックイベントの追加
     task.addEventListener('dblclick', () => {
-      console.log('dblclick');
       if(name.textContent && taskList[i].date) {
         openCreateTaskWindow(name.textContent, taskList[i].date);
       } else {

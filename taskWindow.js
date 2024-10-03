@@ -96,6 +96,9 @@ function initializeFromQuery() {
   // 既存タスクの場合はテキストボックスにタスク名を表示
   if(name !== '') $taskName.value = name;
 
+  // テキストボックスにフォーカスした状態を設定
+  $taskName.focus();
+
   // 既存タスクの場合は選択された日付変数の値を更新
   if(date !== '') {
     // 0埋め削除
