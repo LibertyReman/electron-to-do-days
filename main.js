@@ -10,6 +10,8 @@ function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: 230,
     height: 170,
+    maximizable: false,
+    fullscreenable: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -34,6 +36,10 @@ function createTaskWindow(name, date) {
     height: 305,
     x: X + 20,
     y: Y - 40,
+    resizable: false,
+    minimizable: false,
+    maximizable: false,
+    fullscreenable: false,
     parent: mainWindow,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
