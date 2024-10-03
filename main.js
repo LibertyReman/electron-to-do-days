@@ -81,7 +81,9 @@ function loadTaskList(event) {
     // JSONファイルの読み込み
     const json = fs.readFileSync('tasklist.json', 'utf-8');
     const taskList = JSON.parse(json);
-    //console.log(taskList);
+
+    // 日付順に並び替え
+    taskList.sort((a, b) => new Date(a.date) - new Date(b.date));
     return taskList;
   } catch(err) {
     console.error(err);
@@ -91,13 +93,44 @@ function loadTaskList(event) {
 
 // タスク作成画面の作成
 function openCreateTaskWindow(event, name, date) {
+  // 選択されたタスクを一度削除する
+  deleteTask(name, date);
+
   createTaskWindow(name, date);
 }
 
 // タスク保存
 function saveTask(event, name, date) {
-  console.log('------');
-  console.log(name, date);
+  // タスク名が入力されていない場合はタスク保存しない
+  if(name === '') {
+    mainWindow.reload();
+    return;
+  }
+
+  // タスクの追加
+  const task = { name: name, date: date };
+  let taskList = loadTaskList();
+  taskList.push(task);
+
+  // JSONファイルへ書き込み
+  fs.writeFileSync('tasklist.json', JSON.stringify(taskList, null, 2), 'utf-8');
+
+  // メイン画面のリロード
+  mainWindow.reload();
+
+  // リサイズ TODO:この処理は関数化してレンダラープロセスから実行する アプリ起動時も呼ぶ
+  // mainWindow.setSize(400, 400);
+}
+
+// タスク削除
+function deleteTask(name, date) {
+  let taskList = loadTaskList();
+
+  // 引数のnameとdateに一致しないデータだけを取り出す
+  taskList = taskList.filter(task => !(task.name === name && task.date === date));
+
+  // JSONファイルへ書き込み
+  fs.writeFileSync('tasklist.json', JSON.stringify(taskList, null, 2), 'utf-8');
 }
 
 
