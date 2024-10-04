@@ -62,16 +62,12 @@ function createTaskWindow(name, date) {
 app.whenReady().then(() => {
   // メイン画面作成
   createMainWindow();
-
-  app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
-  })
 })
 
 
 // アプリ画面を全て閉じた時
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit();
+  app.quit();
 })
 
 
