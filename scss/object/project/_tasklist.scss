@@ -11,6 +11,9 @@
   }
 
   th {
+    position: sticky; // ヘッダーの固定
+    top: 0;           // ヘッダー固定位置の設定
+    z-index: 1;       // ヘッダーフロート
     height: 20px;
     background: variable.$color-darkgray;
 

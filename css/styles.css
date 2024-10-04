@@ -23,6 +23,9 @@ li {
   border: solid 1px black;
 }
 .p-tasklist th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   height: 20px;
   background: #1e1f22;
 }
