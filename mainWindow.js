@@ -16,6 +16,9 @@ async function displayTasks() {
     return;
   }
 
+  // 日付順に並び替え
+  taskList.sort((a, b) => new Date(a.date) - new Date(b.date));
+
   // タスク一覧の表示
   for(let i=0; i<maxTask; i++) {
     const task = document.createElement('tr');

@@ -86,11 +86,7 @@ function loadTaskList(event) {
   try {
     // JSONファイルの読み込み
     const json = fs.readFileSync('tasklist.json', 'utf-8');
-    const taskList = JSON.parse(json);
-
-    // 日付順に並び替え
-    taskList.sort((a, b) => new Date(a.date) - new Date(b.date));
-    return taskList;
+    return JSON.parse(json);
   } catch(err) {
     console.error(err);
     return null;
