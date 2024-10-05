@@ -4,6 +4,7 @@ const $taskList = document.querySelector('.js-tasklist');
 window.addEventListener('DOMContentLoaded', async () => {
   await displayTasks();
   await resizeWindowWidth();
+  checkDateChange();
 })
 
 
@@ -91,4 +92,18 @@ async function openCreateTaskWindow(name, date) {
 async function resizeWindowWidth() {
   await window.task.resizeWindowWidth($taskList.offsetWidth);
 }
+
+// 日付が変わったら画面リロード
+function checkDateChange() {
+  const appStartDate = new Date().toDateString();
+
+  // 1分毎に日付を確認
+  setInterval(() => {
+    const currentDate = new Date().toDateString();
+    // 画面リロード
+    if (appStartDate !== currentDate) window.location.reload();
+  }, 60 * 1000);
+
+}
+
 
