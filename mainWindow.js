@@ -14,10 +14,7 @@ async function displayTasks() {
 
   // タスク一覧の読み込み
   const taskList = await window.task.loadTaskList();
-  if(!taskList) {
-    alert('tasklist.jsonの読み込みに失敗しました。');
-    return;
-  }
+  if(!taskList) return;
 
   // 日付順に並び替え
   taskList.sort((a, b) => new Date(a.date) - new Date(b.date));

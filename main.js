@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('node:path');
 const fs = require('fs');
 const MAIN_MIN_WIDTH = 230;
@@ -26,6 +26,10 @@ function createMainWindow() {
   // 起動時に自動で開発者ツールを開く
   //mainWindow.webContents.openDevTools();
 
+  // 画面を閉じる前の処理
+  mainWindow.on('close', () => {
+    saveAppSettings();
+  });
 }
 
 function createTaskWindow(name, date) {
@@ -80,17 +84,29 @@ ipcMain.handle('resizeWindowWidth', resizeWindowWidth);
 ipcMain.handle('openCreateTaskWindow', openCreateTaskWindow);
 ipcMain.handle('saveTask', saveTask);
 
-
-// タスク一覧の読み込み
-function loadTaskList(event) {
+// JSONフィルの読み込み
+function readJsonFile(fileName) {
   try {
     // JSONファイルの読み込み
-    const json = fs.readFileSync('tasklist.json', 'utf-8');
+    const json = fs.readFileSync(fileName, 'utf-8');
     return JSON.parse(json);
   } catch(err) {
     console.error(err);
+    // エラーダイアログの表示
+    dialog.showMessageBoxSync(mainWindow, {
+      type: 'error',
+      buttons: ['OK'],
+      title: 'Error',
+      message: `${fileName}の読み込みに失敗しました。`
+    });
+
     return null;
   }
+}
+
+// タスク一覧の読み込み
+function loadTaskList(event) {
+  return readJsonFile('tasklist.json');
 }
 
 // 画面の横幅をリサイズ
@@ -143,6 +159,28 @@ function deleteTask(name, date) {
 
   // JSONファイルへ書き込み
   fs.writeFileSync('tasklist.json', JSON.stringify(taskList, null, 2), 'utf-8');
+}
+
+
+// アプリ設定情報の読み込み
+function loadAppSettings() {
+  return readJsonFile('settings.json');
+}
+
+// アプリ設定ファイルの保存
+function saveAppSettings() {
+  const [x, y] = mainWindow.getPosition();
+  const height = mainWindow.getSize()[1];
+
+  let appSettings = loadAppSettings();
+  if(!appSettings) return;
+
+  appSettings.x = x;
+  appSettings.y = y;
+  appSettings.height = height;
+
+  // JSONファイルに書き込む
+  fs.writeFileSync('settings.json', JSON.stringify(appSettings, null, 2), 'utf-8');
 }
 
 
