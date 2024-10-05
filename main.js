@@ -10,9 +10,13 @@ let taskWindow = null;
 
 
 function createMainWindow() {
+  // アプリ設定情報の読み込み
+  const appSettings = loadAppSettings();
+  if(!appSettings) return;
+
   mainWindow = new BrowserWindow({
     width: MAIN_MIN_WIDTH,
-    height: MAIN_MIN_HEIGHT,
+    height: appSettings.height || MAIN_MIN_HEIGHT,
     maximizable: false,
     fullscreenable: false,
     webPreferences: {
@@ -20,9 +24,13 @@ function createMainWindow() {
     },
   });
 
-  mainWindow.loadFile('mainWindow.html');
+  // 画面表示位置の設定
+  if(appSettings.x && appSettings.y) mainWindow.setPosition(appSettings.x, appSettings.y);
   // 画面を常に上部に表示
-  mainWindow.setAlwaysOnTop(true);
+  if(appSettings.topmost === true) mainWindow.setAlwaysOnTop(true);
+
+  // 画面作成
+  mainWindow.loadFile('mainWindow.html');
   // 起動時に自動で開発者ツールを開く
   //mainWindow.webContents.openDevTools();
 
@@ -167,7 +175,7 @@ function loadAppSettings() {
   return readJsonFile('settings.json');
 }
 
-// アプリ設定ファイルの保存
+// アプリ設定情報の保存
 function saveAppSettings() {
   const [x, y] = mainWindow.getPosition();
   const height = mainWindow.getSize()[1];
