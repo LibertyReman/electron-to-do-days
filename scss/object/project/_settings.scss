@@ -1,0 +1,63 @@
+@use "../../foundation/mixin";
+@use "../../foundation/variable";
+
+.p-settings {
+  @include mixin.dbg-bgcolor(green, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  padding: 20px 20px 0;
+  font-size: 15px;
+
+  &__theme {
+    @include mixin.dbg-bgcolor(red, 0);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    margin-bottom: 3px;
+
+    &::after {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      content: '';
+      width: 6px;
+      height: 6px;
+      transform: translate(50%, -50%) rotate(45deg);
+      border-bottom: 2px solid variable.$color-basefont;
+      border-right: 2px solid variable.$color-basefont;
+    }
+
+    select {
+      padding: 3px 20px 3px 7px;
+      border: 1px solid variable.$color-gray;
+      border-radius: 3px;
+      color: variable.$color-basefont;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  }
+
+  &__topmost {
+    @include mixin.dbg-bgcolor(blue, 0);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 45px;
+    margin-bottom: 15px;
+  }
+
+  &__btn {
+    width: 60px;
+    height: 23px;
+    border-radius: 5px;
+    background: variable.$color-gray;
+    color: variable.$color-basebg;
+  }
+
+}
+

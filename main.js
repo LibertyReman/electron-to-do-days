@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('node:path');
 const fs = require('fs');
 const MAIN_MIN_WIDTH = 230;
@@ -38,6 +38,21 @@ function createMainWindow() {
   mainWindow.on('close', () => {
     saveAppSettings();
   });
+
+  // コンテキストメニューの設定
+  const menu = Menu.buildFromTemplate([
+    {
+      label: 'Settings',
+      click: () => {
+        createSettingsWindow();
+      }
+    }
+  ]);
+
+  // コンテキストメニューを表示
+  mainWindow.webContents.on('context-menu', () => {
+    menu.popup();
+  });
 }
 
 function createTaskWindow(name, date) {
@@ -72,6 +87,19 @@ function createTaskWindow(name, date) {
   });
 }
 
+function createSettingsWindow() {
+  const settingsWindow = new BrowserWindow({
+    width: 200,
+    height: 150,
+    modal: true,
+    parent: mainWindow,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+    }
+  });
+
+  settingsWindow.loadFile('settingsWindow.html');
+}
 
 // アプリ初期化完了
 app.whenReady().then(() => {
