@@ -1,6 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
 const fs = require('fs');
+const MAIN_MIN_WIDTH = 230;
+const MAIN_MAX_HEIGHT = 290;
+const MAIN_MIN_HEIGHT = 170;
 
 let mainWindow;
 let taskWindow = null;
@@ -8,8 +11,8 @@ let taskWindow = null;
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({
-    width: 230,
-    height: 170,
+    width: MAIN_MIN_WIDTH,
+    height: MAIN_MIN_HEIGHT,
     maximizable: false,
     fullscreenable: false,
     webPreferences: {
@@ -35,7 +38,7 @@ function createTaskWindow(name, date) {
     width: 240,
     height: 305,
     x: X + 20,
-    y: Y - 40,
+    y: Y - 60,
     resizable: false,
     minimizable: false,
     maximizable: false,
@@ -73,6 +76,7 @@ app.on('window-all-closed', function () {
 
 // レンダラープロセスからのリクエスト待ち受け設定
 ipcMain.handle('loadTaskList', loadTaskList);
+ipcMain.handle('resizeWindowWidth', resizeWindowWidth);
 ipcMain.handle('openCreateTaskWindow', openCreateTaskWindow);
 ipcMain.handle('saveTask', saveTask);
 
@@ -87,6 +91,19 @@ function loadTaskList(event) {
     console.error(err);
     return null;
   }
+}
+
+// 画面の横幅をリサイズ
+function resizeWindowWidth(event, width) {
+  // ユーザが画面の横幅を変更できないように固定
+  mainWindow.setMaximumSize(width, MAIN_MAX_HEIGHT);
+  mainWindow.setMinimumSize(width, MAIN_MIN_HEIGHT);
+
+  // 現在の画面の高さを取得
+  const currentHeight = mainWindow.getSize()[1];
+
+  // 画面リサイズ
+  mainWindow.setSize(width, currentHeight);
 }
 
 // タスク作成画面の作成
@@ -115,9 +132,6 @@ function saveTask(event, name, date) {
 
   // メイン画面のリロード
   mainWindow.reload();
-
-  // リサイズ TODO:この処理は関数化してレンダラープロセスから実行する アプリ起動時も呼ぶ
-  // mainWindow.setSize(400, 400);
 }
 
 // タスク削除

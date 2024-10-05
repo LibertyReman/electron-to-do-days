@@ -2,6 +2,7 @@
 @use "../../foundation/variable";
 
 .p-tasklist {
+  white-space: nowrap; // セルの改行禁止
   border-collapse: collapse;
   font-size: 15px;
 

@@ -1,13 +1,15 @@
+const $taskList = document.querySelector('.js-tasklist');
+
 // DOM読み込み完了後
-window.addEventListener('DOMContentLoaded', () => {
-  displayTasks();
+window.addEventListener('DOMContentLoaded', async () => {
+  await displayTasks();
+  await resizeWindowWidth();
 })
 
 
 // タスク一覧の表示
 async function displayTasks() {
   const maxTask = 20;
-  const $taskList = document.querySelector('.js-tasklist');
 
   // タスク一覧の読み込み
   const taskList = await window.task.loadTaskList();
@@ -84,4 +86,9 @@ async function openCreateTaskWindow(name, date) {
   await window.task.openCreateTaskWindow(name, date);
 }
 
+
+// 画面の横幅をリサイズ
+async function resizeWindowWidth() {
+  await window.task.resizeWindowWidth($taskList.offsetWidth);
+}
 

@@ -15,6 +15,7 @@ li {
 }
 
 .p-tasklist {
+  white-space: nowrap;
   border-collapse: collapse;
   font-size: 15px;
 }

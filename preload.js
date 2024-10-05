@@ -2,9 +2,17 @@ const { contextBridge, ipcRenderer } = require("electron");
 
 // レンダラープロセスから呼び出す関数を登録
 contextBridge.exposeInMainWorld('task', {
+  // タスク一覧読み込み関数の実行
   async loadTaskList() {
     // メインプロセス内のloadTaskList関数を実行
     const result = await ipcRenderer.invoke('loadTaskList');
+    return result;
+  },
+
+  // 画面の横幅をリサイズする関数の実行
+  async resizeWindowWidth(width) {
+    // メインプロセス内のresizeWindowWidth関数を実行
+    const result = await ipcRenderer.invoke('resizeWindowWidth', width);
     return result;
   },
 
