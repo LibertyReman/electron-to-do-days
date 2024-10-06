@@ -191,4 +191,12 @@ async function saveTask(name, date) {
   await window.task.saveTask(name, date);
 }
 
+// ctrl enter, cmd enterでタスク保存するショートカットを定義
+window.addEventListener('keydown', (event) => {
+  // CtrlキーまたはCmdキーが押され、Enterキーが押された場合
+  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+    window.close();
+  }
+});
+
 
