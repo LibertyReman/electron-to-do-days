@@ -41,7 +41,7 @@ function createMainWindow() {
   });
 
   // コンテキストメニューの設定
-  const menu = Menu.buildFromTemplate([
+  const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Settings',
       click: () => {
@@ -49,11 +49,36 @@ function createMainWindow() {
       }
     }
   ]);
-
   // コンテキストメニューを表示
   mainWindow.webContents.on('context-menu', () => {
-    menu.popup();
+    contextMenu.popup();
   });
+
+  // アプリメニューの設定（拡大縮小など不要なショートカットを削除）
+  const appMenu = Menu.buildFromTemplate([
+    {
+      role: app.name,
+      submenu: [
+        { role: 'about' }
+      ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'delete' },
+        { role: 'selectAll' }
+      ]
+    }
+  ]);
+  // アプリケーションメニューを表示
+  Menu.setApplicationMenu(appMenu);
+
 }
 
 // タスク作成画面の作成
