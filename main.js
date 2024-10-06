@@ -6,9 +6,10 @@ const MAIN_MAX_HEIGHT = 290;
 const MAIN_MIN_HEIGHT = 170;
 
 let mainWindow;
+let settingsWindow;
 let taskWindow = null;
 
-
+// メイン画面の作成
 function createMainWindow() {
   // アプリ設定情報の読み込み
   const appSettings = loadAppSettings();
@@ -26,8 +27,8 @@ function createMainWindow() {
 
   // 画面表示位置の設定
   if(appSettings.x && appSettings.y) mainWindow.setPosition(appSettings.x, appSettings.y);
-  // 画面を常に上部に表示
-  if(appSettings.topmost === true) mainWindow.setAlwaysOnTop(true);
+  // 画面フロート設定
+  mainWindow.setAlwaysOnTop(appSettings.topmost);
 
   // 画面作成
   mainWindow.loadFile('mainWindow.html');
@@ -55,6 +56,7 @@ function createMainWindow() {
   });
 }
 
+// タスク作成画面の作成
 function createTaskWindow(name, date) {
   // 画面の複数作成回避
   if(taskWindow !== null) return;
@@ -87,8 +89,12 @@ function createTaskWindow(name, date) {
   });
 }
 
+// アプリ設定モーダル画面の作成
 function createSettingsWindow() {
-  const settingsWindow = new BrowserWindow({
+  const appSettings = loadAppSettings();
+  if(!appSettings) return;
+
+  settingsWindow = new BrowserWindow({
     width: 200,
     height: 150,
     modal: true,
@@ -98,7 +104,9 @@ function createSettingsWindow() {
     }
   });
 
-  settingsWindow.loadFile('settingsWindow.html');
+  // 画面作成の際にクエリパラメータでアプリ設定情報を送信
+  settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?thema=${appSettings.thema}&topmost=${appSettings.topmost}`);
+  //settingsWindow.webContents.openDevTools();
 }
 
 // アプリ初期化完了
@@ -119,6 +127,7 @@ ipcMain.handle('loadTaskList', loadTaskList);
 ipcMain.handle('resizeWindowWidth', resizeWindowWidth);
 ipcMain.handle('openCreateTaskWindow', openCreateTaskWindow);
 ipcMain.handle('saveTask', saveTask);
+ipcMain.handle('updateAppSettings', updateAppSettings);
 
 // JSONフィルの読み込み
 function readJsonFile(fileName) {
@@ -197,26 +206,42 @@ function deleteTask(name, date) {
   fs.writeFileSync('tasklist.json', JSON.stringify(taskList, null, 2), 'utf-8');
 }
 
-
 // アプリ設定情報の読み込み
 function loadAppSettings() {
   return readJsonFile('settings.json');
 }
 
-// アプリ設定情報の保存
-function saveAppSettings() {
+// アプリ設定情報の保存（引数を指定した場合は、その設定を更新）
+function saveAppSettings(thema = null, topmost = null) {
   const [x, y] = mainWindow.getPosition();
   const height = mainWindow.getSize()[1];
 
   let appSettings = loadAppSettings();
   if(!appSettings) return;
 
+  if(thema !== null) appSettings.thema = thema;
+  if(topmost !== null) appSettings.topmost = topmost;
   appSettings.x = x;
   appSettings.y = y;
   appSettings.height = height;
 
   // JSONファイルに書き込む
   fs.writeFileSync('settings.json', JSON.stringify(appSettings, null, 2), 'utf-8');
+}
+
+// アプリ設定更新
+function updateAppSettings(event, thema, topmost) {
+  // アプリ設定情報の保存
+  saveAppSettings(thema, topmost);
+
+  // アプリ設定モーダル画面を閉じる
+  settingsWindow.close();
+
+  // 画面フロート設定の更新
+  mainWindow.setAlwaysOnTop(topmost);
+
+  // テーマの更新
+  // mainWindow.loadURL(`file://${__dirname}/index.html?thema=${thema}`);
 }
 
 

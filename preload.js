@@ -28,6 +28,12 @@ contextBridge.exposeInMainWorld('task', {
     return result;
   },
 
+  // アプリ設定更新関数の実行
+  async updateAppSettings(thema, topmost) {
+    const result = await ipcRenderer.invoke('updateAppSettings', thema, topmost);
+    return result;
+  },
+
 });
 
 
