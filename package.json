@@ -1,22 +1,50 @@
 {
-  "name": "to_do_timer",
-  "version": "1.0.0",
-  "description": "to do timer",
+  "name": "to-do-timer",
+  "version": "1.0.1",
+  "description": "To Do Timer",
+  "author": "kk",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "nodemon --watch . --ext js,html,css --exec \"electron .\""
+    "dev": "nodemon --watch . --ext js,html,css --exec \"electron .\"",
+    "build": "run-s build:*",
+    "build:mac64": "electron-builder --mac --x64",
+    "build:mac-arm": "electron-builder --mac --arm64",
+    "build:win64": "electron-builder --win --x64 --dir"
+  },
+  "build": {
+    "productName": "To Do Timer",
+    "appId": "com.kk.to-do-timer",
+    "extraFiles": [
+        {"from": "tasklist.json", "to": "resources"},
+        {"from": "settings.json", "to": "resources"}
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "icon.png"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "keywords": [],
-  "author": "LibertyReman",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^3.0.2",
     "electron": "^32.1.0",
+    "electron-builder": "^25.1.7",
     "gulp": "^4.0.2",
     "gulp-dart-sass": "^1.1.0",
     "gulp-plumber": "^1.2.1",
     "gulp-sourcemaps": "^3.0.0",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "npm-run-all": "^4.1.5"
   }
 }

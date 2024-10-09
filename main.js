@@ -4,6 +4,8 @@ const fs = require('fs');
 const MAIN_MIN_WIDTH = 230;
 const MAIN_MAX_HEIGHT = 290;
 const MAIN_MIN_HEIGHT = 170;
+const settingsFilePath = app.isPackaged ? path.join(__dirname, '..', 'settings.json') : 'settings.json';
+const tasklistFilePath = app.isPackaged ? path.join(__dirname, '..', 'tasklist.json') : 'tasklist.json';
 
 let mainWindow;
 let settingsWindow;
@@ -176,7 +178,7 @@ function readJsonFile(fileName) {
 
 // タスク一覧の読み込み
 function loadTaskList(event) {
-  return readJsonFile('tasklist.json');
+  return readJsonFile(tasklistFilePath);
 }
 
 // 画面の横幅をリサイズ
@@ -214,7 +216,7 @@ function saveTask(event, name, date) {
   taskList.push(task);
 
   // JSONファイルへ書き込み
-  fs.writeFileSync('tasklist.json', JSON.stringify(taskList, null, 2), 'utf-8');
+  fs.writeFileSync(tasklistFilePath, JSON.stringify(taskList, null, 2), 'utf-8');
 
   // メイン画面のリロード
   mainWindow.reload();
@@ -228,12 +230,12 @@ function deleteTask(name, date) {
   taskList = taskList.filter(task => !(task.name === name && task.date === date));
 
   // JSONファイルへ書き込み
-  fs.writeFileSync('tasklist.json', JSON.stringify(taskList, null, 2), 'utf-8');
+  fs.writeFileSync(tasklistFilePath, JSON.stringify(taskList, null, 2), 'utf-8');
 }
 
 // アプリ設定情報の読み込み
 function loadAppSettings() {
-  return readJsonFile('settings.json');
+  return readJsonFile(settingsFilePath);
 }
 
 // アプリ設定情報の保存（引数を指定した場合は、その設定を更新）
@@ -251,7 +253,7 @@ function saveAppSettings(thema = null, topmost = null) {
   appSettings.height = height;
 
   // JSONファイルに書き込む
-  fs.writeFileSync('settings.json', JSON.stringify(appSettings, null, 2), 'utf-8');
+  fs.writeFileSync(settingsFilePath, JSON.stringify(appSettings, null, 2), 'utf-8');
 }
 
 // アプリ設定更新
