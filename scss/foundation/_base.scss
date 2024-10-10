@@ -10,6 +10,11 @@ html {
   font-family: arial, sans-serif;
 }
 
+// スクロールバー非表示
+::-webkit-scrollbar {
+  display: none;
+}
+
 a {
   color: inherit; // 親のスタイルを継承
   text-decoration: none; // URLリンクの下線を削除

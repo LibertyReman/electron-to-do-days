@@ -1,9 +1,16 @@
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('node:path');
 const fs = require('fs');
-const MAIN_MIN_WIDTH = 230;
-const MAIN_MAX_HEIGHT = 290;
-const MAIN_MIN_HEIGHT = 170;
+const isWin = process.platform === 'win32'
+const WINDOWS_WIDTH_MARGIN = 16;
+const WINDOWS_HEIGHT_MARGIN = 10;
+const MAIN_MIN_WIDTH = isWin ? 230 + WINDOWS_WIDTH_MARGIN : 230;
+const MAIN_MAX_HEIGHT = isWin ? 290 + WINDOWS_HEIGHT_MARGIN : 290;
+const MAIN_MIN_HEIGHT = isWin ? 170 + WINDOWS_HEIGHT_MARGIN : 170;
+const TASK_MAX_WIDTH = isWin ? 240 + WINDOWS_WIDTH_MARGIN : 240;
+const TASK_MAX_HEIGHT = isWin ? 305 + WINDOWS_HEIGHT_MARGIN : 305;
+const SETTINGS_MAX_WIDTH = isWin ? 200 + WINDOWS_WIDTH_MARGIN : 200;
+const SETTINGS_MAX_HEIGHT = isWin ? 150 + WINDOWS_HEIGHT_MARGIN : 150;
 const settingsFilePath = app.isPackaged ? path.join(__dirname, '..', 'settings.json') : 'settings.json';
 const tasklistFilePath = app.isPackaged ? path.join(__dirname, '..', 'tasklist.json') : 'tasklist.json';
 
@@ -78,8 +85,13 @@ function createMainWindow() {
       ]
     }
   ]);
+
   // アプリケーションメニューを表示
-  Menu.setApplicationMenu(appMenu);
+  if(isWin) {
+    Menu.setApplicationMenu(null);
+  } else {
+    Menu.setApplicationMenu(appMenu);
+  }
 
 }
 
@@ -91,8 +103,8 @@ function createTaskWindow(name, date) {
   const [X, Y] = mainWindow.getPosition();
 
   taskWindow = new BrowserWindow({
-    width: 240,
-    height: 305,
+    width: TASK_MAX_WIDTH,
+    height: TASK_MAX_HEIGHT,
     x: X + 20,
     y: Y - 60,
     resizable: false,
@@ -122,8 +134,12 @@ function createSettingsWindow() {
   if(!appSettings) return;
 
   settingsWindow = new BrowserWindow({
-    width: 200,
-    height: 150,
+    width: SETTINGS_MAX_WIDTH,
+    height: SETTINGS_MAX_HEIGHT,
+    resizable: false,
+    minimizable: false,
+    maximizable: false,
+    fullscreenable: false,
     modal: true,
     parent: mainWindow,
     webPreferences: {
@@ -183,11 +199,14 @@ function loadTaskList(event) {
 
 // 画面の横幅をリサイズ
 function resizeWindowWidth(event, width) {
+  // Windowsの場合
+  if(isWin) width += WINDOWS_WIDTH_MARGIN;
+
   // ユーザが画面の横幅を変更できないように固定
   mainWindow.setMaximumSize(width, MAIN_MAX_HEIGHT);
   mainWindow.setMinimumSize(width, MAIN_MIN_HEIGHT);
 
-  // 現在の画面の高さを取得
+  // 現在の画面高さを取得
   const currentHeight = mainWindow.getSize()[1];
 
   // 画面リサイズ
