@@ -17,12 +17,12 @@ const tasklistFilePath = app.isPackaged ? path.join(__dirname, '..', 'tasklist.j
 let mainWindow;
 let settingsWindow;
 let taskWindow = null;
+let appSettings = null
 
 // メイン画面の作成
 function createMainWindow() {
   // アプリ設定情報の読み込み
-  const appSettings = loadAppSettings();
-  if(!appSettings) return;
+  appSettings = loadAppSettings();
 
   mainWindow = new BrowserWindow({
     width: MAIN_MIN_WIDTH,
@@ -40,7 +40,7 @@ function createMainWindow() {
   mainWindow.setAlwaysOnTop(appSettings.topmost);
 
   // 画面作成
-  mainWindow.loadFile('mainWindow.html');
+  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?theme=${appSettings.theme}`);
   // 起動時に自動で開発者ツールを開く
   //mainWindow.webContents.openDevTools();
 
@@ -118,7 +118,7 @@ function createTaskWindow(name, date) {
   });
 
   // 画面作成の際にクエリパラメータでタスクデータを送信
-  taskWindow.loadURL(`file://${__dirname}/taskWindow.html?name=${name}&date=${date}`);
+  taskWindow.loadURL(`file://${__dirname}/taskWindow.html?theme=${appSettings.theme}&name=${name}&date=${date}`);
   taskWindow.setAlwaysOnTop(true);
   //taskWindow.webContents.openDevTools();
 
@@ -130,8 +130,16 @@ function createTaskWindow(name, date) {
 
 // アプリ設定モーダル画面の作成
 function createSettingsWindow() {
-  const appSettings = loadAppSettings();
-  if(!appSettings) return;
+  // タスク作成画面を開いている場合はアプリ設定モーダルを開かない
+  if(taskWindow !== null) {
+    dialog.showMessageBoxSync(mainWindow, {
+      type: 'error',
+      buttons: ['OK'],
+      title: 'Error',
+      message: `タスク作成画面を閉じてください。`
+    });
+    return;
+  }
 
   settingsWindow = new BrowserWindow({
     width: SETTINGS_MAX_WIDTH,
@@ -148,7 +156,7 @@ function createSettingsWindow() {
   });
 
   // 画面作成の際にクエリパラメータでアプリ設定情報を送信
-  settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?thema=${appSettings.thema}&topmost=${appSettings.topmost}`);
+  settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?theme=${appSettings.theme}&topmost=${appSettings.topmost}`);
   //settingsWindow.webContents.openDevTools();
 }
 
@@ -258,14 +266,11 @@ function loadAppSettings() {
 }
 
 // アプリ設定情報の保存（引数を指定した場合は、その設定を更新）
-function saveAppSettings(thema = null, topmost = null) {
+function saveAppSettings(theme = null, topmost = null) {
   const [x, y] = mainWindow.getPosition();
   const height = mainWindow.getSize()[1];
 
-  let appSettings = loadAppSettings();
-  if(!appSettings) return;
-
-  if(thema !== null) appSettings.thema = thema;
+  if(theme !== null) appSettings.theme = theme;
   if(topmost !== null) appSettings.topmost = topmost;
   appSettings.x = x;
   appSettings.y = y;
@@ -276,9 +281,9 @@ function saveAppSettings(thema = null, topmost = null) {
 }
 
 // アプリ設定更新
-function updateAppSettings(event, thema, topmost) {
+function updateAppSettings(event, theme, topmost) {
   // アプリ設定情報の保存
-  saveAppSettings(thema, topmost);
+  saveAppSettings(theme, topmost);
 
   // アプリ設定モーダル画面を閉じる
   settingsWindow.close();
@@ -287,7 +292,7 @@ function updateAppSettings(event, thema, topmost) {
   mainWindow.setAlwaysOnTop(topmost);
 
   // テーマの更新
-  // mainWindow.loadURL(`file://${__dirname}/index.html?thema=${thema}`);
+  mainWindow.loadURL(`file://${__dirname}/mainWindow.html?theme=${theme}`);
 }
 
 

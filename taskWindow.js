@@ -3,9 +3,8 @@ let setDate = null;
 const $taskName = document.querySelector('.js-taskname');
 
 // DOM読み込み完了後
-window.addEventListener('DOMContentLoaded', () => {
-  // クエリパラメータによる初期化
-  initializeFromQuery();
+window.addEventListener('DOMContentLoaded', async () => {
+  await initializeFromQuery();
 
   // 表示するカレンダー日付
   let displayYear = null;
@@ -87,11 +86,15 @@ window.addEventListener('beforeunload', () => {
 });
 
 
-function initializeFromQuery() {
+// クエリパラメータによる初期化
+async function initializeFromQuery() {
   // クエリパラメータの取得
   const urlParams = new URLSearchParams(window.location.search);
+  let theme = urlParams.get('theme');
   let name = urlParams.get('name');
   let date = urlParams.get('date');
+
+  await setCSSTheme(theme);
 
   // 既存タスクの場合はテキストボックスにタスク名を表示
   if(name !== '') $taskName.value = name;
@@ -109,6 +112,26 @@ function initializeFromQuery() {
     const d = new Date();
     setDate = d.toLocaleDateString('ja-JP');
   }
+}
+
+
+// CSSテーマを設定
+async function setCSSTheme(theme) {
+  const $css = document.querySelector('.js-theme-stylesheet');
+
+  return new Promise((resolve) => {
+    if (theme === 'dark') {
+      $css.href = './css/dark.css';
+    } else {
+      $css.href = './css/light.css';
+    }
+
+    // onloadプロパティでCSSの読み込み完了時の処理を追加（イベントリスナーの追加）
+    $css.onload = () => {
+      // resloveでreturn実行
+      resolve();
+    };
+  });
 }
 
 

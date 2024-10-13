@@ -2,10 +2,40 @@ const $taskList = document.querySelector('.js-tasklist');
 
 // DOM読み込み完了後
 window.addEventListener('DOMContentLoaded', async () => {
+  await initializeFromQuery();
   await displayTasks();
   await resizeWindowWidth();
   checkDateChange();
 })
+
+
+// クエリパラメータによる初期化
+async function initializeFromQuery() {
+  // クエリパラメータの取得
+  const urlParams = new URLSearchParams(window.location.search);
+  const theme = urlParams.get('theme');
+
+  await setCSSTheme(theme);
+}
+
+// CSSテーマを設定
+async function setCSSTheme(theme) {
+  const $css = document.querySelector('.js-theme-stylesheet');
+
+  return new Promise((resolve) => {
+    if (theme === 'dark') {
+      $css.href = './css/dark.css';
+    } else {
+      $css.href = './css/light.css';
+    }
+
+    // onloadプロパティでCSSの読み込み完了時の処理を追加（イベントリスナーの追加）
+    $css.onload = () => {
+      // resloveでreturn実行
+      resolve();
+    };
+  });
+}
 
 
 // タスク一覧の表示
