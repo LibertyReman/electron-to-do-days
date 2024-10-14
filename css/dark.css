@@ -20,12 +20,17 @@ li {
 
 .p-tasklist {
   white-space: nowrap;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 15px;
 }
 .p-tasklist th, .p-tasklist td {
   padding: 0 6px;
-  border: solid 1px black;
+  border-bottom: solid 1px #000000;
+  border-left: solid 1px #000000;
+}
+.p-tasklist th:nth-of-type(1), .p-tasklist td:nth-of-type(1) {
+  border-left: none;
 }
 .p-tasklist th {
   position: sticky;
@@ -59,6 +64,8 @@ li {
   margin: 5px 0 10px;
   padding: 3px;
   border-radius: 5px;
+  box-sizing: border-box;
+  border: solid 1px #6d747a;
   background: #6d747a;
 }
 .p-createtask__calendar-ctrl {
@@ -87,7 +94,7 @@ li {
 }
 .p-createtask__calendar th, .p-createtask__calendar td {
   height: 23px;
-  border: solid 1px black;
+  border: solid 1px #000000;
 }
 .p-createtask__calendar th {
   background: #1e1f22;
@@ -151,7 +158,7 @@ li {
   color: #2b2d31;
 }
 
-.u-fontcolor-gray {
+.u-fontcolor-weekend {
   color: #6d747a;
 }
 

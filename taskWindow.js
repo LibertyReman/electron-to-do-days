@@ -174,7 +174,7 @@ function createCalendar(year, month) {
         if(setDate && `${year}/${month}/${day}` === setDate) td.classList.add('u-bgcolor-red');
 
         // 土日の場合は文字色を変更
-        if((j % 7) === 0 || (j % 7) === 6) td.classList.add('u-fontcolor-gray');
+        if((j % 7) === 0 || (j % 7) === 6) td.classList.add('u-fontcolor-weekend');
 
         // クリックイベントの追加
         const clickedDay = day;

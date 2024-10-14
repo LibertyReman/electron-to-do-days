@@ -20,7 +20,9 @@
     margin: 5px 0 10px;
     padding: 3px;
     border-radius: 5px;
-    background: variable.$color-gray;
+    box-sizing: border-box;
+    border: solid 1px variable.$color-inputborder;
+    background: variable.$color-inputbg;
   }
 
   &__calendar-ctrl {
@@ -39,8 +41,8 @@
         padding: 0 5px;
         margin-left: 6px;
         border-radius: 5px;
-        background: variable.$color-gray;
-        color: variable.$color-basebg;
+        background: variable.$color-btnbg;
+        color: variable.$color-btnfont;
         font-size: 12px;
         font-weight: bold;
       }
@@ -55,11 +57,11 @@
 
     th, td {
       height: 23px;
-      border: solid 1px black;
+      border: solid 1px variable.$color-tableborder;
     }
 
     th {
-      background: variable.$color-darkgray;
+      background: variable.$color-thbg;
     }
 
     td {
