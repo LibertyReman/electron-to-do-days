@@ -90,6 +90,7 @@ li {
 .p-createtask__calendar {
   margin: 3px 0 5px;
   border-collapse: collapse;
+  background: white;
   font-size: 15px;
 }
 .p-createtask__calendar th, .p-createtask__calendar td {
