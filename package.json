@@ -10,7 +10,8 @@
     "build": "run-s build:*",
     "build:mac64": "electron-builder --mac --x64",
     "build:mac-arm": "electron-builder --mac --arm64",
-    "build:win64": "electron-builder --win --x64 --dir"
+    "build:win64": "electron-builder --win --x64",
+    "build:win64-portable": "electron-builder --win --x64 --dir"
   },
   "build": {
     "productName": "To Do Timer",
