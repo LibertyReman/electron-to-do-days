@@ -25,6 +25,7 @@ function createMainWindow() {
   appSettings = loadAppSettings();
 
   mainWindow = new BrowserWindow({
+    show: false,
     width: MAIN_MIN_WIDTH,
     height: appSettings.height || MAIN_MIN_HEIGHT,
     maximizable: false,
@@ -34,6 +35,8 @@ function createMainWindow() {
     },
   });
 
+  // レンダリングの準備が完了してから画面を表示
+  mainWindow.once('ready-to-show', () => mainWindow.show());
   // 画面表示位置の設定
   if(appSettings.x && appSettings.y) mainWindow.setPosition(appSettings.x, appSettings.y);
   // 画面フロート設定
@@ -103,6 +106,7 @@ function createTaskWindow(name, date) {
   const [X, Y] = mainWindow.getPosition();
 
   taskWindow = new BrowserWindow({
+    show: false,
     width: TASK_MAX_WIDTH,
     height: TASK_MAX_HEIGHT,
     x: X + 20,
@@ -117,6 +121,7 @@ function createTaskWindow(name, date) {
     },
   });
 
+  taskWindow.once('ready-to-show', () => taskWindow.show());
   // 画面作成の際にクエリパラメータでタスクデータを送信
   taskWindow.loadURL(`file://${__dirname}/taskWindow.html?theme=${appSettings.theme}&name=${name}&date=${date}`);
   taskWindow.setAlwaysOnTop(true);
@@ -142,6 +147,7 @@ function createSettingsWindow() {
   }
 
   settingsWindow = new BrowserWindow({
+    show: false,
     width: SETTINGS_MAX_WIDTH,
     height: SETTINGS_MAX_HEIGHT,
     resizable: false,
@@ -155,6 +161,7 @@ function createSettingsWindow() {
     }
   });
 
+  settingsWindow.once('ready-to-show', () => settingsWindow.show());
   // 画面作成の際にクエリパラメータでアプリ設定情報を送信
   settingsWindow.loadURL(`file://${__dirname}/settingsWindow.html?theme=${appSettings.theme}&topmost=${appSettings.topmost}`);
   //settingsWindow.webContents.openDevTools();
