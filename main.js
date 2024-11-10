@@ -2,15 +2,8 @@ const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('node:path');
 const fs = require('fs');
 const isWin = process.platform === 'win32'
-const WINDOWS_WIDTH_MARGIN = 16;
-const WINDOWS_HEIGHT_MARGIN = 10;
-const MAIN_MIN_WIDTH = isWin ? 230 + WINDOWS_WIDTH_MARGIN : 230;
-const MAIN_MAX_HEIGHT = isWin ? 288 + WINDOWS_HEIGHT_MARGIN : 288;
-const MAIN_MIN_HEIGHT = isWin ? 168 + WINDOWS_HEIGHT_MARGIN : 168;
-const TASK_MAX_WIDTH = isWin ? 240 + WINDOWS_WIDTH_MARGIN : 240;
-const TASK_MAX_HEIGHT = isWin ? 305 + WINDOWS_HEIGHT_MARGIN : 305;
-const SETTINGS_MAX_WIDTH = isWin ? 200 + WINDOWS_WIDTH_MARGIN : 200;
-const SETTINGS_MAX_HEIGHT = isWin ? 150 + WINDOWS_HEIGHT_MARGIN : 150;
+const MAIN_MIN_HEIGHT = 140;
+const MAIN_MAX_HEIGHT = 500;
 const settingsFilePath = app.isPackaged ? path.join(__dirname, '..', 'settings.json') : 'settings.json';
 const tasklistFilePath = app.isPackaged ? path.join(__dirname, '..', 'tasklist.json') : 'tasklist.json';
 
@@ -26,8 +19,11 @@ function createMainWindow() {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: MAIN_MIN_WIDTH,
+    width: 230,
     height: appSettings.height || MAIN_MIN_HEIGHT,
+    minHeight: MAIN_MIN_HEIGHT,
+    maxHeight: MAIN_MAX_HEIGHT,
+    useContentSize: true,
     maximizable: false,
     fullscreenable: false,
     webPreferences: {
@@ -45,7 +41,7 @@ function createMainWindow() {
   // 画面作成
   mainWindow.loadURL(`file://${__dirname}/mainWindow.html?theme=${appSettings.theme}`);
   // 起動時に自動で開発者ツールを開く
-  //mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools({ mode: 'detach' });
 
   // 画面を閉じる前の処理
   mainWindow.on('close', () => {
@@ -107,8 +103,9 @@ function createTaskWindow(name, date) {
 
   taskWindow = new BrowserWindow({
     show: false,
-    width: TASK_MAX_WIDTH,
-    height: TASK_MAX_HEIGHT,
+    width: 240,
+    height: 285,
+    useContentSize: true,
     x: X + 20,
     y: Y - 60,
     resizable: false,
@@ -148,8 +145,9 @@ function createSettingsWindow() {
 
   settingsWindow = new BrowserWindow({
     show: false,
-    width: SETTINGS_MAX_WIDTH,
-    height: SETTINGS_MAX_HEIGHT,
+    width: 200,
+    height: 120,
+    useContentSize: true,
     resizable: false,
     minimizable: false,
     maximizable: false,
@@ -214,15 +212,17 @@ function loadTaskList(event) {
 
 // 画面の横幅をリサイズ
 function resizeWindowWidth(event, width) {
-  // Windowsの場合
-  if(isWin) width += WINDOWS_WIDTH_MARGIN;
-
-  // ユーザが画面の横幅を変更できないように固定
-  mainWindow.setMaximumSize(width, MAIN_MAX_HEIGHT);
-  mainWindow.setMinimumSize(width, MAIN_MIN_HEIGHT);
-
   // 現在の画面高さを取得
   const currentHeight = mainWindow.getSize()[1];
+  // フレームの高さを計算
+  const frameHeight = currentHeight - mainWindow.getContentSize()[1];
+
+  // Windowsの場合はマージンが必要
+  if(isWin) width += 16;
+
+  // ユーザが画面の横幅を変更できないように固定
+  mainWindow.setMinimumSize(width, MAIN_MIN_HEIGHT + frameHeight);
+  mainWindow.setMaximumSize(width, MAIN_MAX_HEIGHT + frameHeight);
 
   // 画面リサイズ
   mainWindow.setSize(width, currentHeight);
@@ -275,7 +275,7 @@ function loadAppSettings() {
 // アプリ設定情報の保存（引数を指定した場合は、その設定を更新）
 function saveAppSettings(theme = null, topmost = null) {
   const [x, y] = mainWindow.getPosition();
-  const height = mainWindow.getSize()[1];
+  const height = mainWindow.getContentSize()[1];
 
   if(theme !== null) appSettings.theme = theme;
   if(topmost !== null) appSettings.topmost = topmost;
