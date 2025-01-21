@@ -53,6 +53,17 @@ function createMainWindow() {
     {
       label: 'Settings',
       click: () => {
+        // タスク作成画面を開いている場合はアプリ設定モーダルを開かない
+        if(taskWindow !== null) {
+          dialog.showMessageBoxSync(mainWindow, {
+            type: 'error',
+            buttons: ['OK'],
+            title: 'Error',
+            message: `タスク作成画面を閉じてください。`
+          });
+          return;
+        }
+
         createSettingsWindow();
       }
     }
@@ -96,9 +107,6 @@ function createMainWindow() {
 
 // タスク作成画面の作成
 function createTaskWindow(name, date) {
-  // 画面の複数作成回避
-  if(taskWindow !== null) return;
-
   const [X, Y] = mainWindow.getPosition();
 
   taskWindow = new BrowserWindow({
@@ -132,17 +140,6 @@ function createTaskWindow(name, date) {
 
 // アプリ設定モーダル画面の作成
 function createSettingsWindow() {
-  // タスク作成画面を開いている場合はアプリ設定モーダルを開かない
-  if(taskWindow !== null) {
-    dialog.showMessageBoxSync(mainWindow, {
-      type: 'error',
-      buttons: ['OK'],
-      title: 'Error',
-      message: `タスク作成画面を閉じてください。`
-    });
-    return;
-  }
-
   settingsWindow = new BrowserWindow({
     show: false,
     width: 200,
@@ -230,6 +227,9 @@ function resizeWindowWidth(event, width) {
 
 // タスク作成画面の作成
 function openCreateTaskWindow(event, name, date) {
+  // 画面の複数作成回避
+  if(taskWindow !== null) return;
+
   // 選択されたタスクを一度削除する
   deleteTask(name, date);
 
