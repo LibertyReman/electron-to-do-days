@@ -93,6 +93,12 @@ function createMainWindow() {
         { role: 'delete' },
         { role: 'selectAll' }
       ]
+    },
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'close' }
+      ]
     }
   ]);
 
