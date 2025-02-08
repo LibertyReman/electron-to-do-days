@@ -1,7 +1,7 @@
 {
-  "name": "to-do-timer",
+  "name": "to-do-days",
   "version": "1.0.3",
-  "description": "To Do Timer",
+  "description": "To Do Days",
   "author": "kk",
   "main": "main.js",
   "scripts": {
@@ -14,8 +14,8 @@
     "build:win64-portable": "electron-builder --win --x64 --dir"
   },
   "build": {
-    "productName": "To Do Timer",
-    "appId": "com.kk.to-do-timer",
+    "productName": "To Do Days",
+    "appId": "com.kk.to-do-days",
     "extraFiles": [
         {"from": "tasklist.json", "to": "resources"},
         {"from": "settings.json", "to": "resources"}

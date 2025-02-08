@@ -1,4 +1,4 @@
-# To Do Timer
+# To Do Days
 
 ### タスクの締め切りまでの日数を表示するアプリ（Mac・Windows 対応）
 
@@ -28,7 +28,7 @@
 ダブルクリックでインストーラーを起動し、アイコンをドラッグしてアプリを追加
 1. ターミナルを起動し、次のコマンドを実行
 
-    `xattr -rc /Applications/To\ Do\ Timer.app; echo $?`
+    `xattr -rc /Applications/To\ Do\ Days.app; echo $?`
 
     `0`が出力されればインストール完了
 
@@ -49,14 +49,14 @@
 <details>
 <summary>Mac</summary>
 
-* アプリケーションフォルダから`To Do Timer.app`を削除する
+* アプリケーションフォルダから`To Do Days.app`を削除する
 
 </details>
 
 <details>
 <summary>Windows</summary>
 
-* `プログラムの追加と削除`から`To Do Timer`を削除する
+* `プログラムの追加と削除`から`To Do Days`を削除する
 
 </details>
 
@@ -90,8 +90,8 @@
 
 ## 開発
 
-1. $ git clone <https://github.com/LibertyReman/electron-to-do-timer.git>
-1. $ cd electron-to-do-timer/
+1. $ git clone <https://github.com/LibertyReman/electron-to-do-days.git>
+1. $ cd electron-to-do-days/
 1. $ npm install
 1. $ npm run start
 
