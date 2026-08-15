@@ -40,7 +40,7 @@ async function setCSSTheme(theme) {
 
 // タスク一覧の表示
 async function displayTasks() {
-  const maxTask = 20;
+  const maxTask = 30;
 
   // タスク一覧の読み込み
   const taskList = await window.task.loadTaskList();
