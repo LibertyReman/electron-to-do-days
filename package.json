@@ -1,6 +1,6 @@
 {
   "name": "to-do-days",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "To Do Days",
   "author": "kk",
   "main": "main.js",
@@ -17,8 +17,14 @@
     "productName": "To Do Days",
     "appId": "com.kk.to-do-days",
     "extraFiles": [
-        {"from": "tasklist.json", "to": "resources"},
-        {"from": "settings.json", "to": "resources"}
+      {
+        "from": "tasklist.json",
+        "to": "resources"
+      },
+      {
+        "from": "settings.json",
+        "to": "resources"
+      }
     ],
     "mac": {
       "target": [

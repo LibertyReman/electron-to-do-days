@@ -61,7 +61,7 @@ async function displayTasks() {
 
     if(i < taskList.length) {
       name.textContent = taskList[i].name;
-      date.textContent = taskList[i].date.substring(5);
+      date.textContent = `${taskList[i].date.substring(5)} ${['日', '月', '火', '水', '木', '金', '土'][new Date(taskList[i].date).getDay()]}`;
       limit.textContent = getLimit(taskList[i].date);
 
       // セルの背景色の設定
